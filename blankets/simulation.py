@@ -41,7 +41,9 @@ class BlanketSimulation(object):
             signal, signal_dot = self._get_signal(p)
             for s in range(self.n_signals):
                 self.vec_field[p, s, :] = signal_dot[s, :] * signal[s] ** -1
-                self.vec_mag[p, s] = np.abs(np.sqrt(np.sum(self.vec_field[p, s, :] ** 2)) + self.vec_omega[s])
+                self.vec_mag[p, s] = np.abs(
+                    np.sqrt(np.sum(self.vec_field[p, s, :] ** 2)) + self.vec_omega[s]
+                )
                 self.y[p, s] = np.abs(self.psi[p, s] + self.y_omega[s])
 
             self._update_mu_dot(p)
@@ -98,7 +100,10 @@ class BlanketSimulation(object):
         for i in range(self.n_signals):
             for j in range(self.n_signals):
                 self.mu_dot[idx, j] += (
-                    -1 * self.vec_prec[i] * (self.vec_prior[j, i] - self.vec_mag[idx, i]) * self.psi[idx, j]
+                    -1
+                    * self.vec_prec[i]
+                    * (self.vec_prior[j, i] - self.vec_mag[idx, i])
+                    * self.psi[idx, j]
                 )
                 self.mu_dot[idx, j] += (
                     -1 * self.y_prec[i] * (self.y_prior[j, i] - self.y[idx, i]) * self.psi[idx, j]
